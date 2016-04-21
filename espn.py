@@ -4,20 +4,23 @@ def main():
 
 	print()
 
+	'''
+
+	< --------------------- Jimmy Butler --------------------------------------------------------------- >
+	< -------------------------------------------------------------------------------------------------- > 
+	
+	'''
+
 	player = "jimmy-butler"
 
 	html = urlopen("http://espn.go.com/nba/player/gamelog/_/id/6430/"+player)
 	bsObj = BeautifulSoup(html.read(), "html.parser")
+
+
 	st1 = (bsObj.findAll("tr", {"class":"oddrow team-46-5"}))
 	st2 = (bsObj.findAll("tr", {"class":"evenrow team-46-5"}))
 
-	#found = bsObj.find("tr", { "class" : "oddrow player-46-6430" })
-	#print(found)
-	#print(found.td)
-	#print(found.td)
-	#"""
-
-	for i in range(2):
+	for i in range(len(st1)):
 		
 
 		obj = st1[i].findAll("td")
@@ -46,7 +49,7 @@ def main():
 		print("Points:", obj[16].getText())
 		print()
 
-	for i in range(2):
+	for i in range(len(st2)):
 	
 		obj = st2[i].findAll("td")
 		
@@ -73,6 +76,13 @@ def main():
 		print("Turnovers:", obj[15].getText())
 		print("Points:", obj[16].getText())
 		print()
+
+	'''
+
+	< -------------------------------------------------------------------------------------------------- >
+	< -------------------------------------------------------------------------------------------------- > 
+	
+	'''
 
 
 	
