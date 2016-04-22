@@ -4,7 +4,7 @@ import pymysql
 
 def main():
 
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='bank')
+	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 
 	cur = conn.cursor()
 
@@ -30,14 +30,26 @@ def main():
 	f = t[0].getText()
 	y = len(f) - 1
 	x = y - 2
-	print(f[x:y])
+	age = int(f[x:y])
+
+	playr = player.split("-")
+
+	id_num = 1
+	first = playr[0].capitalize()
+	last = playr[1].capitalize()
+
+	#cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))
+
+
+
 
 	'''
 
 
 	'''
 	#< ------------- vs --------------------------------------------------- >
-	'''
+	
+	
 	for v in range(1,30):
 
 		if (v == 4):
@@ -53,27 +65,62 @@ def main():
 				obj = st1[i].findAll("td")
 				
 				playr = player.split("-")
-				print("Player:" , playr[0].capitalize(), playr[1].capitalize())
-				print("Date:" , obj[0].getText())
+				#print("Player:" , playr[0].capitalize(), playr[1].capitalize())
+
+				#print("Date:" , obj[0].getText())
+				date = obj[0].getText()
+
 				opp = obj[1].getText()
-				print("Opponent:", opp[2:])
-				print("Minutes:" ,obj[3].getText())
+				#print("Opponent:", opp[2:])
+				opponent = opp[2:]
+
+				#score
+				q = obj[2].findAll("a")
+				score = q[0].getText()
+				#print("Score:",score)
+
+				#print("Minutes:" ,obj[3].getText())
+				minu = obj[3].getText()
+
 				x = obj[4].getText().split("-")
-				print("Shots Made:" ,x[0])
-				print("Shots Attempted:" ,x[1])
+				#print("Shots Made:" ,x[0])
+				#print("Shots Attempted:" ,x[1])
+				fg_made = x[0]
+				fg_attempted = x[1]
+
 				x = obj[6].getText().split("-")
-				print("3-Point Shots Made:" ,x[0])
-				print("3-Point Shots Attempted:" ,x[1])
+				#print("3-Point Shots Made:" ,x[0])
+				#print("3-Point Shots Attempted:" ,x[1])
+				three_made = x[0]
+				three_attempted = x[1]
+
 				x = obj[8].getText().split("-")
-				print("Free Throws Made:" ,x[0])
-				print("Free Throws Attempted:" ,x[1])
-				print("Rebounds:", obj[10].getText())
-				print("Assists:", obj[11].getText())
-				print("Blocks:", obj[12].getText())
-				print("Steals:", obj[13].getText())
-				print("Fouls:", obj[14].getText())
-				print("Turnovers:", obj[15].getText())
-				print("Points:", obj[16].getText())
+				#print("Free Throws Made:" ,x[0])
+				#print("Free Throws Attempted:" ,x[1])
+				free_made = x[0]
+				free_attempted = x[1]
+
+				#print("Rebounds:", obj[10].getText())
+				rebounds = obj[10].getText()
+
+				#print("Assists:", obj[11].getText())
+				assists = obj[11].getText()
+
+				#print("Blocks:", obj[12].getText())
+				blocks = obj[12].getText()
+
+				#print("Steals:", obj[13].getText())
+				steals = obj[13].getText()
+
+				#print("Fouls:", obj[14].getText())
+				fouls = obj[14].getText()
+
+				#print("Turnovers:", obj[15].getText())
+				turnovers = obj[15].getText()
+
+				#print("Points:", obj[16].getText())
+				points = obj[16].getText()
+
 				print()
 
 			for i in range(len(st2)):
@@ -85,6 +132,10 @@ def main():
 				print("Date:" , obj[0].getText())
 				opp = obj[1].getText()
 				print("Opponent:", opp[2:])
+				#score
+				q = obj[2].findAll("a")
+				score = q[0].getText()
+				print("Score:",score)
 				print("Minutes:" ,obj[3].getText())
 				x = obj[4].getText().split("-")
 				print("Shots Made:" ,x[0])
@@ -104,7 +155,11 @@ def main():
 				print("Points:", obj[16].getText())
 				print()
 
-	'''
+	cur.close()
+	conn.commit()
+	conn.close()
+
+	
 	#< ----------------------------------------------------------------------- >
 	#< ------------- vsPHI --------------------------------------------------- >
 
