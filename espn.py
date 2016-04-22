@@ -4,11 +4,15 @@ import pymysql
 
 def main():
 
+	'''
+	--------- -------- ------- CLEAR TABLES BEFORE RUNNING ------- - ------- --------- 
+	'''
+
 	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 
 	cur = conn.cursor()
 
-	print()
+	#print()
 
 	'''
 
@@ -38,7 +42,7 @@ def main():
 	first = playr[0].capitalize()
 	last = playr[1].capitalize()
 
-	#cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))
+	cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))
 
 
 
@@ -49,6 +53,7 @@ def main():
 	'''
 	#< ------------- vs --------------------------------------------------- >
 	
+	game_id = 0
 	
 	for v in range(1,30):
 
@@ -60,9 +65,83 @@ def main():
 			st2 = (bsObj.findAll("tr", {"class":"evenrow team-46-"+v}))
 
 			for i in range(len(st1)):
+
+				game_id += 1
 				
 
 				obj = st1[i].findAll("td")
+				
+				playr = player.split("-")
+				#print("Player:" , playr[0].capitalize(), playr[1].capitalize())
+
+				#print("Date:" , obj[0].getText())
+				date = obj[0].getText()
+
+				opp = obj[1].getText()
+				#print("Opponent 1:", opp[2:])
+				opponent = opp[2:]
+
+				#score
+				q = obj[2].findAll("a")
+				score = q[0].getText()
+				#print("Score:",score)
+
+				#print("Minutes:" ,obj[3].getText())
+				minu = obj[3].getText()
+
+				x = obj[4].getText().split("-")
+				#print("Shots Made:" ,x[0])
+				#print("Shots Attempted:" ,x[1])
+				fg_made = x[0]
+				fg_attempted = x[1]
+
+				x = obj[6].getText().split("-")
+				#print("3-Point Shots Made:" ,x[0])
+				#print("3-Point Shots Attempted:" ,x[1])
+				three_made = x[0]
+				three_attempted = x[1]
+
+				x = obj[8].getText().split("-")
+				#print("Free Throws Made:" ,x[0])
+				#print("Free Throws Attempted:" ,x[1])
+				free_made = x[0]
+				free_attempted = x[1]
+
+				#print("Rebounds:", obj[10].getText())
+				rebounds = obj[10].getText()
+
+				#print("Assists:", obj[11].getText())
+				assists = obj[11].getText()
+
+				#print("Blocks:", obj[12].getText())
+				blocks = obj[12].getText()
+
+				#print("Steals:", obj[13].getText())
+				steals = obj[13].getText()
+
+				#print("Fouls:", obj[14].getText())
+				fouls = obj[14].getText()
+
+				#print("Turnovers:", obj[15].getText())
+				turnovers = obj[15].getText()
+
+				#print("Points:", obj[16].getText())
+				points = obj[16].getText()
+
+				#print()
+
+				n = " "
+
+				cur.execute('insert into Games values ("%s","%s","%s","%s", "%s")' % (game_id, v ,n, date, score))
+
+				# not done with this statement
+				# cur.execute('insert into Data values ("%s","%s","%s","%s", "%s")' % (game_id, game_id ,id_num, minu, fg_made, fg_attempted, ))
+
+			for i in range(len(st2)):
+
+				game_id += 1
+			
+				obj = st2[i].findAll("td")
 				
 				playr = player.split("-")
 				#print("Player:" , playr[0].capitalize(), playr[1].capitalize())
@@ -121,39 +200,13 @@ def main():
 				#print("Points:", obj[16].getText())
 				points = obj[16].getText()
 
-				print()
+				#print()
 
-			for i in range(len(st2)):
-			
-				obj = st2[i].findAll("td")
-				
-				playr = player.split("-")
-				print("Player:" , playr[0].capitalize(), playr[1].capitalize())
-				print("Date:" , obj[0].getText())
-				opp = obj[1].getText()
-				print("Opponent:", opp[2:])
-				#score
-				q = obj[2].findAll("a")
-				score = q[0].getText()
-				print("Score:",score)
-				print("Minutes:" ,obj[3].getText())
-				x = obj[4].getText().split("-")
-				print("Shots Made:" ,x[0])
-				print("Shots Attempted:" ,x[1])
-				x = obj[6].getText().split("-")
-				print("3-Point Shots Made:" ,x[0])
-				print("3-Point Shots Attempted:" ,x[1])
-				x = obj[8].getText().split("-")
-				print("Free Throws Made:" ,x[0])
-				print("Free Throws Attempted:" ,x[1])
-				print("Rebounds:", obj[10].getText())
-				print("Assists:", obj[11].getText())
-				print("Blocks:", obj[12].getText())
-				print("Steals:", obj[13].getText())
-				print("Fouls:", obj[14].getText())
-				print("Turnovers:", obj[15].getText())
-				print("Points:", obj[16].getText())
-				print()
+				n = " "
+
+				cur.execute('insert into Games values ("%s","%s","%s","%s", "%s")' % (game_id, v ,n, date, score))
+
+			cur.execute('insert into Opponents values ("%s","%s")' % (v , opponent))
 
 	cur.close()
 	conn.commit()
