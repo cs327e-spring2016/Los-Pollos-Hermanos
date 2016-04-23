@@ -12,6 +12,11 @@ def main():
 
 	cur = conn.cursor()
 
+	cur.execute("DELETE FROM Data")
+	cur.execute("DELETE FROM Player")
+	cur.execute("DELETE FROM Opponents")
+	cur.execute("DELETE FROM Games")
+
 	#print()
 
 	'''
@@ -135,7 +140,7 @@ def main():
 				cur.execute('insert into Games values ("%s","%s","%s","%s", "%s")' % (game_id, v ,n, date, score))
 
 				# not done with this statement
-				# cur.execute('insert into Data values ("%s","%s","%s","%s", "%s")' % (game_id, game_id ,id_num, minu, fg_made, fg_attempted, ))
+				cur.execute('insert into Data values ("%s","%s","%s","%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (game_id, game_id ,id_num, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
 
 			for i in range(len(st2)):
 
