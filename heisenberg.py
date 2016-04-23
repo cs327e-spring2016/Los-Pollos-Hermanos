@@ -35,7 +35,7 @@ def main():
 
 	for plyer in range(1,(len(player_array)+1)):
 
-		print("Player: ",player_array[plyer-1],"is done!")
+		print("Player: ",player_array[plyer-1],"is starting!")
 
 		player = player_array[plyer-1]
 
@@ -226,6 +226,8 @@ def main():
 					#if oppo_bool:
 						#cur.execute('insert into Opponents values ("%s","%s")' % (v , opponent))
 			#oppo_bool = False
+
+		print("Player: ",player_array[plyer-1],"is done!")
 
 	cur.close()
 	conn.commit()
