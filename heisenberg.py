@@ -9,14 +9,16 @@ def main():
 
 
 	# database connection: add your own passwd
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='data_scraper')
+	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
+
 
 	# tables wiped 
 	cur.execute("DELETE FROM Data")
 	cur.execute("DELETE FROM Player")
 	cur.execute("DELETE FROM Opponents")
 	cur.execute("DELETE FROM Games")
+
 
 	# chicago bulls roster
 	player_array = ["jimmy-butler", "cameron-bairstow", "aaron-brooks", "mike-dunleavy", "cristiano-felicio", "pau-gasol", "taj-gibson", "justin-holidy", "doug-mcdermott", "nikola-mirotic", "e'twaun-moore", "joakim-noah", "bobby-ports", "derrick-rose", "tony-snell"]
@@ -198,6 +200,7 @@ def main():
 
 		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is done!")
 		# end of scrape
+	
 	print()
 	# custom query interface
 	start = input("Ready to start querying?(yes/no) ")
@@ -237,7 +240,7 @@ def main():
 			print(select)
 			c = False
 		elif (table.lower() == "games"):
-			print("Table", table.capitalize(), "has: id_pk , opponent , date , and score for each game")
+			print("Table", table.capitalize(), "has: id_pk , opponent_fk , date , and score for each game")
 			print()
 			select = input("What would you like to select(use commas to separate values)? ")
 			select2 = select.split(",")
