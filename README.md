@@ -12,3 +12,7 @@ Update April 24, 2016
 - All data is successfully being scraped
 - Scraped data is correctly introduces into database
 - First custom query integration is complete -- Currently only queries one table at a time
+
+Update April 25, 2016
+
+- game id bug fixed. Ready for M5
