@@ -8,8 +8,8 @@ def main():
 	print('...')
 
 
-	# database connection
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
+	# database connection: add your own passwd
+	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='data_scraper')
 	cur = conn.cursor()
 
 	# tables wiped 
