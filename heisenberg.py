@@ -30,7 +30,10 @@ def main():
 
 	for plyer in range(1,(len(player_array)+1)):
 
-		print("Player: ",player_array[plyer-1],"is starting!")
+		ayer = player_array[plyer-1]
+		ayer = ayer.split("-")
+
+		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is starting!")
 
 		player = player_array[plyer-1]
 
@@ -38,7 +41,6 @@ def main():
 		bsObj = BeautifulSoup(html.read(), "html.parser")
 
 
-		# Age
 		s = (bsObj.findAll("ul", {"class":"player-metadata floatleft"}))
 		t = s[0].findAll("li")
 		j = t[1].findAll("span")
@@ -53,12 +55,7 @@ def main():
 		first = playr[0].capitalize()
 		last = playr[1].capitalize()
 
-		cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))
-
-
-		#< ------------- vs --------------------------------------------------- >
-		
-		#game_id = 0
+		cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))		
 
 		
 		for v in range(1,30):
@@ -78,69 +75,47 @@ def main():
 					obj = st1[i].findAll("td")
 					
 					playr = player.split("-")
-					#print("Player:" , playr[0].capitalize(), playr[1].capitalize())
 
-					#print("Date:" , obj[0].getText())
 					date = obj[0].getText()
 
 					opp = obj[1].getText()
-					#print("Opponent 1:", opp[2:])
 					opponent = opp[2:]
 
-					#score
 					q = obj[2].findAll("a")
 					score = q[0].getText()
-					#print("Score:",score)
 
-					#print("Minutes:" ,obj[3].getText())
 					minu = obj[3].getText()
 
 					x = obj[4].getText().split("-")
-					#print("Shots Made:" ,x[0])
-					#print("Shots Attempted:" ,x[1])
 					fg_made = x[0]
 					fg_attempted = x[1]
 
 					x = obj[6].getText().split("-")
-					#print("3-Point Shots Made:" ,x[0])
-					#print("3-Point Shots Attempted:" ,x[1])
 					three_made = x[0]
 					three_attempted = x[1]
 
 					x = obj[8].getText().split("-")
-					#print("Free Throws Made:" ,x[0])
-					#print("Free Throws Attempted:" ,x[1])
 					free_made = x[0]
 					free_attempted = x[1]
 
-					#print("Rebounds:", obj[10].getText())
 					rebounds = obj[10].getText()
 
-					#print("Assists:", obj[11].getText())
 					assists = obj[11].getText()
 
-					#print("Blocks:", obj[12].getText())
 					blocks = obj[12].getText()
 
-					#print("Steals:", obj[13].getText())
 					steals = obj[13].getText()
 
-					#print("Fouls:", obj[14].getText())
 					fouls = obj[14].getText()
 
-					#print("Turnovers:", obj[15].getText())
 					turnovers = obj[15].getText()
 
-					#print("Points:", obj[16].getText())
 					points = obj[16].getText()
-
-					#print()
 
 					if plyer == 1:
 
 						cur.execute('insert into Games values ("%s","%s","%s","%s")' % (game_id, opponent , date, score))
 
-					# not done with this statement
 					cur.execute('insert into Data values ("%s","%s","%s","%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (game_id, game_id ,id_num, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
 
 				for i in range(len(st2)):
@@ -153,73 +128,49 @@ def main():
 					obj = st2[i].findAll("td")
 					
 					playr = player.split("-")
-					#print("Player:" , playr[0].capitalize(), playr[1].capitalize())
 
-					#print("Date:" , obj[0].getText())
 					date = obj[0].getText()
 
 					opp = obj[1].getText()
-					#print("Opponent:", opp[2:])
 					opponent = opp[2:]
 
-					#score
 					q = obj[2].findAll("a")
 					score = q[0].getText()
-					#print("Score:",score)
 
-					#print("Minutes:" ,obj[3].getText())
 					minu = obj[3].getText()
 
 					x = obj[4].getText().split("-")
-					#print("Shots Made:" ,x[0])
-					#print("Shots Attempted:" ,x[1])
 					fg_made = x[0]
 					fg_attempted = x[1]
 
 					x = obj[6].getText().split("-")
-					#print("3-Point Shots Made:" ,x[0])
-					#print("3-Point Shots Attempted:" ,x[1])
 					three_made = x[0]
 					three_attempted = x[1]
 
 					x = obj[8].getText().split("-")
-					#print("Free Throws Made:" ,x[0])
-					#print("Free Throws Attempted:" ,x[1])
 					free_made = x[0]
 					free_attempted = x[1]
 
-					#print("Rebounds:", obj[10].getText())
 					rebounds = obj[10].getText()
 
-					#print("Assists:", obj[11].getText())
 					assists = obj[11].getText()
 
-					#print("Blocks:", obj[12].getText())
 					blocks = obj[12].getText()
 
-					#print("Steals:", obj[13].getText())
 					steals = obj[13].getText()
 
-					#print("Fouls:", obj[14].getText())
 					fouls = obj[14].getText()
 
-					#print("Turnovers:", obj[15].getText())
 					turnovers = obj[15].getText()
 
-					#print("Points:", obj[16].getText())
 					points = obj[16].getText()
 
-					#print()
 					if plyer == 1:
 						cur.execute('insert into Games values ("%s","%s","%s","%s")' % (game_id, opponent , date, score))
 
-					#if oppo_bool:
-						#cur.execute('insert into Opponents values ("%s","%s")' % (v , opponent))
-			#oppo_bool = False
+		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is done!")
 
-		print("Player: ",player_array[plyer-1],"is done!")
-
-
+	print()
 	start = input("Ready to start querying?(yes/no) ")
 
 	if start.lower() != "yes":
@@ -264,17 +215,19 @@ def main():
 			c = True
 
 
-	print("What conditions would you like to add(ex first = jimmy, age >= 20)?")
+	print("What conditions would you like to add(ex first = 'jimmy', age >= 20)?")
 	print()
 	whre = input("WHERE: ")
 
-	print(whre)
+	print()
 
 	print("Is this the query you'd like to run?")
 	print()
 	table = table.capitalize()
 	print("SELECT", select, "FROM",table, "WHERE", whre)
-	statement = input("yes/no : ")
+	print()
+	statement = input("(yes/no): ")
+	print()
 	if (statement.lower() == "yes"):
 		hfg = cur.execute('SELECT %s FROM %s WHERE %s' % (select, table, whre))
 		p = cur.fetchall()
