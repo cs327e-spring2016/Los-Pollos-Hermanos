@@ -15,7 +15,6 @@ def main():
 
 	cur = conn.cursor()
 
-	'''
 	cur.execute("DELETE FROM Data")
 	cur.execute("DELETE FROM Player")
 	cur.execute("DELETE FROM Opponents")
@@ -220,7 +219,6 @@ def main():
 
 		print("Player: ",player_array[plyer-1],"is done!")
 
-	'''
 
 	start = input("Ready to start querying?(yes/no) ")
 
@@ -265,22 +263,12 @@ def main():
 			print("Seems like your spelling may be incorrect, lets try again.")
 			c = True
 
-	print("PASSED")
-	'''
-	y = "concat(first, ' ' ,last)"
-	hfg = cur.execute('select %s from Player' % y)
-	p = cur.fetchall()
-	for row in p:
-		print(row)
-	'''
 
 	print("What conditions would you like to add(ex first = jimmy, age >= 20)?")
 	print()
 	whre = input("WHERE: ")
 
 	print(whre)
-
-	print("PASSED")
 
 	print("Is this the query you'd like to run?")
 	print()
@@ -297,20 +285,5 @@ def main():
 	cur.close()
 	conn.commit()
 	conn.close()
-
-	
-	#< ----------------------------------------------------------------------- >
-	#< ------------- vsPHI --------------------------------------------------- >
-
-	'''
-	'''
-
-	#< -------------------------------------------------------------------------------------------------- >
-	#< -------------------------------------------------------------------------------------------------- > 
-	
-	'''
-
-
-	'''
 
 main()
