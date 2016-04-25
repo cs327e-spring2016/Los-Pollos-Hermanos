@@ -6,8 +6,7 @@ Team Members: Juan Hinojosa, Leonel Rodriguez, Wei Da Pan
 - Analyze player performance data per game
 - Compare both data to view player value to team(overall points, rebounds, 3 pointers, fouls, time played)
 
-
-#LosPollosHermanos
+#
 Update April 24, 2016
 
 - All data is successfully being scraped
