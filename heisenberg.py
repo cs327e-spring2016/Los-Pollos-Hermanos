@@ -20,13 +20,31 @@ def main():
 
 	# chicago bulls roster
 	player_array = ["jimmy-butler", "cameron-bairstow", "aaron-brooks", "mike-dunleavy", "cristiano-felicio", "pau-gasol", "taj-gibson", "justin-holidy", "doug-mcdermott", "nikola-mirotic", "e'twaun-moore", "joakim-noah", "bobby-ports", "derrick-rose", "tony-snell"]
+	else_arry = []
 
 	id_num = 0
 	game_id = 0
 	oppo_bool = False
+	data_id = 0
+
+	else_arry_ver = input("Would you like to input all payers or custom select players to import(all/some)? ")
+	if else_arry_ver.lower().replace(" ", "") == "some":
+		print()
+		new_array = input("Type the names of the players youd like to import separated by a comma. (ex jimmy butler , aaron brooks) ")
+		new_array = new_array.replace(", ", ",")
+		new_array = new_array.replace(" ,", ",")
+		new_array = new_array.replace(" ", "-")
+		new_array = new_array.split(",")
+		print(new_array)
+		player_array = new_array
+
+	print("Chicago Bulls Roster: ")
 
 	# iterate over roster
 	for plyer in range(1,(len(player_array)+1)):
+
+		game_id = 0
+
 
 		ayer = player_array[plyer-1]
 		ayer = ayer.split("-")
@@ -54,7 +72,7 @@ def main():
 		first = playr[0].capitalize()
 		last = playr[1].capitalize()
 
-		cur.execute('insert into Player values ("%s","%s","%s","%s")' % (id_num,first,last,age))		
+		cur.execute('insert into Player values ("%s","%s","%s","%s")' % (plyer,first,last,age))		
 
 		# iterate over nba teams
 		for v in range(1,30):
@@ -62,6 +80,7 @@ def main():
 			if (v == 4):
 				continue
 			else:
+				#game_id += 1
 				v = str(v)
 				st1 = (bsObj.findAll("tr", {"class":"oddrow team-46-"+v}))
 				st2 = (bsObj.findAll("tr", {"class":"evenrow team-46-"+v}))
@@ -69,6 +88,7 @@ def main():
 				for i in range(len(st1)):
 
 					game_id += 1
+					data_id += 1
 					
 
 					obj = st1[i].findAll("td")
@@ -113,17 +133,21 @@ def main():
 
 					# only need one data instance of each game
 					if plyer == 1:
-
-						cur.execute('insert into Games values ("%s","%s","%s","%s")' % (game_id, opponent , date, score))
+						#game_id += 1
+						#print("tst")
+						cur.execute('insert into Games values (%s,"%s","%s","%s")' % (game_id, opponent , date, score))
 					# data injection per player and game
-					cur.execute('insert into Data values ("%s","%s","%s","%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (game_id, game_id ,id_num, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
+					#print(game_id)
+					cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
 				# same as above, separation due to html structure
 				for i in range(len(st2)):
+					data_id += 1
+					game_id += 1
 
 					if plyer == 1:
 						oppo_bool = True
 
-					game_id += 1
+					#game_id += 1
 				
 					obj = st2[i].findAll("td")
 					
@@ -166,7 +190,11 @@ def main():
 					points = obj[16].getText()
 
 					if plyer == 1:
+						#game_id += 1
 						cur.execute('insert into Games values ("%s","%s","%s","%s")' % (game_id, opponent , date, score))
+					#print(game_id, "-")
+					cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
+
 
 		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is done!")
 		# end of scrape
@@ -176,6 +204,9 @@ def main():
 
 	if start.lower() != "yes":
 		print("BYE!")
+		cur.close()
+		conn.commit()
+		conn.close()
 		return
 
 	print("GREAT!")
