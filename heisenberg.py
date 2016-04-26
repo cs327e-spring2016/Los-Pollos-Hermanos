@@ -2,12 +2,9 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pymysql
 
-def main():
-
-	print("Starting to scrape...")
-	print('...')
 
 
+def dbase_init():
 	# database connection: add your own passwd
 	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
@@ -19,29 +16,14 @@ def main():
 	cur.execute("DELETE FROM Opponents")
 	cur.execute("DELETE FROM Games")
 
+	return cur, conn
 
-	# chicago bulls roster
-	player_array = ["jimmy-butler", "cameron-bairstow", "aaron-brooks", "mike-dunleavy", "cristiano-felicio", "pau-gasol", "taj-gibson", "justin-holidy", "doug-mcdermott", "nikola-mirotic", "e'twaun-moore", "joakim-noah", "bobby-ports", "derrick-rose", "tony-snell"]
-	else_arry = []
 
+def scrape(player_array, cur):
 	id_num = 0
 	game_id = 0
 	oppo_bool = False
 	data_id = 0
-
-	else_arry_ver = input("Would you like to input all payers or custom select players to import(all/some)? ")
-	if else_arry_ver.lower().replace(" ", "") == "some":
-		print()
-		new_array = input("Type the names of the players youd like to import separated by a comma. (ex jimmy butler , aaron brooks) ")
-		new_array = new_array.replace(", ", ",")
-		new_array = new_array.replace(" ,", ",")
-		new_array = new_array.replace(" ", "-")
-		new_array = new_array.split(",")
-		print(new_array)
-		player_array = new_array
-
-	print("Chicago Bulls Roster: ")
-
 	# iterate over roster
 	for plyer in range(1,(len(player_array)+1)):
 
@@ -200,8 +182,11 @@ def main():
 
 		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is done!")
 		# end of scrape
-	
-	print()
+
+
+
+
+def query_interface (cur, conn):
 	# custom query interface
 	start = input("Ready to start querying?(yes/no) ")
 
@@ -210,7 +195,8 @@ def main():
 		cur.close()
 		conn.commit()
 		conn.close()
-		return
+		stop = True
+		return stop
 
 	print("GREAT!")
 	print()
@@ -225,7 +211,7 @@ def main():
 		print()
 
 		if (table.lower() == "player"):
-			print("Table", table.capitalize(), "has: id_pk , fist , last ,and age for each player")
+			print("Table", table.capitalize(), "has: id_pk , first , last ,and age for each player")
 			print()
 			# user inputs what columns they'd like to see
 			select = input("What would you like to select(use commas to separate values)? ")
@@ -271,6 +257,44 @@ def main():
 		p = cur.fetchall()
 		for row in p:
 			print(row)
+
+
+def some_or_all ():
+
+	player_array = ["jimmy-butler", "cameron-bairstow", "aaron-brooks", "mike-dunleavy", "cristiano-felicio", "pau-gasol", "taj-gibson", "justin-holidy", "doug-mcdermott", "nikola-mirotic", "e'twaun-moore", "joakim-noah", "bobby-ports", "derrick-rose", "tony-snell"]
+	else_arry_ver = input("Would you like to input all payers or custom select players to import(all/some)? ")
+	if else_arry_ver.lower().replace(" ", "") == "some":
+		print()
+		new_array = input("Type the names of the players youd like to import separated by a comma. (ex jimmy butler , aaron brooks) ")
+		new_array = new_array.replace(", ", ",")
+		new_array = new_array.replace(" ,", ",")
+		new_array = new_array.replace(" ", "-")
+		new_array = new_array.split(",")
+		player_array = []
+		player_array = new_array
+	return player_array
+
+
+def main():
+
+	print("Starting to scrape...")
+	print('...')
+
+
+	cur, conn = dbase_init()
+
+	player_array = some_or_all()
+
+
+	print("Chicago Bulls Roster: ")
+
+	scrape(player_array, cur)
+	
+	print()
+
+	stop = query_interface(cur, conn)
+	if stop == True:
+		return
 
 	# close database connection
 	cur.close()
