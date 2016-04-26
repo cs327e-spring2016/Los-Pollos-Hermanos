@@ -68,117 +68,64 @@ def scrape(player_array, cur):
 				v = str(v)
 				st1 = (bsObj.findAll("tr", {"class":"oddrow team-46-"+v}))
 				st2 = (bsObj.findAll("tr", {"class":"evenrow team-46-"+v}))
+				stmain = [st1, st2]
 
-				for i in range(len(st1)):
+				for j in stmain:
 
-					game_id += 1
-					data_id += 1
-					
+					for i in range(len(st1)):
 
-					obj = st1[i].findAll("td")
-					
-					playr = player.split("-")
+						game_id += 1
+						data_id += 1
+						
 
-					date = obj[0].getText()
+						obj = st1[i].findAll("td")
+						
+						playr = player.split("-")
 
-					opp = obj[1].getText()
-					opponent = opp[2:]
+						date = obj[0].getText()
 
-					q = obj[2].findAll("a")
-					score = q[0].getText()
+						opp = obj[1].getText()
+						opponent = opp[2:]
 
-					minu = obj[3].getText()
+						q = obj[2].findAll("a")
+						score = q[0].getText()
 
-					x = obj[4].getText().split("-")
-					fg_made = x[0]
-					fg_attempted = x[1]
+						minu = obj[3].getText()
 
-					x = obj[6].getText().split("-")
-					three_made = x[0]
-					three_attempted = x[1]
+						x = obj[4].getText().split("-")
+						fg_made = x[0]
+						fg_attempted = x[1]
 
-					x = obj[8].getText().split("-")
-					free_made = x[0]
-					free_attempted = x[1]
+						x = obj[6].getText().split("-")
+						three_made = x[0]
+						three_attempted = x[1]
 
-					rebounds = obj[10].getText()
+						x = obj[8].getText().split("-")
+						free_made = x[0]
+						free_attempted = x[1]
 
-					assists = obj[11].getText()
+						rebounds = obj[10].getText()
 
-					blocks = obj[12].getText()
+						assists = obj[11].getText()
 
-					steals = obj[13].getText()
+						blocks = obj[12].getText()
 
-					fouls = obj[14].getText()
+						steals = obj[13].getText()
 
-					turnovers = obj[15].getText()
+						fouls = obj[14].getText()
 
-					points = obj[16].getText()
+						turnovers = obj[15].getText()
 
-					# only need one data instance of each game
-					if plyer == 1:
-						#game_id += 1
-						#print("tst")
-						cur.execute('insert into Games values (%s,"%s","%s","%s")' % (game_id, opponent , date, score))
-					# data injection per player and game
-					#print(game_id)
-					cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
-				# same as above, separation due to html structure
-				for i in range(len(st2)):
-					data_id += 1
-					game_id += 1
+						points = obj[16].getText()
 
-					if plyer == 1:
-						oppo_bool = True
-
-					#game_id += 1
-				
-					obj = st2[i].findAll("td")
-					
-					playr = player.split("-")
-
-					date = obj[0].getText()
-
-					opp = obj[1].getText()
-					opponent = opp[2:]
-
-					q = obj[2].findAll("a")
-					score = q[0].getText()
-
-					minu = obj[3].getText()
-
-					x = obj[4].getText().split("-")
-					fg_made = x[0]
-					fg_attempted = x[1]
-
-					x = obj[6].getText().split("-")
-					three_made = x[0]
-					three_attempted = x[1]
-
-					x = obj[8].getText().split("-")
-					free_made = x[0]
-					free_attempted = x[1]
-
-					rebounds = obj[10].getText()
-
-					assists = obj[11].getText()
-
-					blocks = obj[12].getText()
-
-					steals = obj[13].getText()
-
-					fouls = obj[14].getText()
-
-					turnovers = obj[15].getText()
-
-					points = obj[16].getText()
-
-					if plyer == 1:
-						#game_id += 1
-						cur.execute('insert into Games values ("%s","%s","%s","%s")' % (game_id, opponent , date, score))
-					#print(game_id, "-")
-					cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
-
+						# only need one data instance of each game
+						if plyer == 1:
+							#game_id += 1
+							#print("tst")
+							cur.execute('insert into Games values (%s,"%s","%s","%s")' % (game_id, opponent , date, score))
+						# data injection per player and game
+						#print(game_id)
+						cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points ))
 
 		print("Player: ", ayer[0].capitalize(), ayer[1].capitalize(),"is done!")
 		# end of scrape
