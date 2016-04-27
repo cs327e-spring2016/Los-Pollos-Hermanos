@@ -4,24 +4,18 @@ import pymysql
 
 
 preseason =["Fri 10/23","Tue 10/20","Mon 10/19","Wed 10/14","Mon 10/12","Sat 10/10","Thu 10/8","Tue 10/6"]
-Division=[5,8,11,15,1,14,18,20,28,30] #x4
-OtherCon = [3, 6, 7, 9, 10,12,13,16,21,22,23,24,25,26,29] #x2
-Conf=[2,17,19,27]	#x3
 
 def dbase_init():
 	# database connection: add your own passwd
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
+	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='st1eo.22', db='data_scraper')
 	cur = conn.cursor()
 
 
-
 	# tables wiped 
-
 	cur.execute("DELETE FROM Data")
 	cur.execute("DELETE FROM Player")
+	cur.execute("DELETE FROM Opponents")
 	cur.execute("DELETE FROM Games")
-
-
 
 	return cur, conn
 
@@ -32,6 +26,9 @@ def scrape(player_array, cur):
 	global oppo_bool
 	global data_id
 
+	pIDS=[6430,2528354,3192,1708,3113587,996,3986,2284101,2528588,6459,6460,3224,3064482,3456,2528353]
+	tracking=0
+
 	id_num = 0
 	globalid_num = 0
 	game_id = 0
@@ -39,6 +36,8 @@ def scrape(player_array, cur):
 	data_id = 0
 	# iterate over roster
 	for plyer in range(1,(len(player_array)+1)):
+		LRID= pIDS[tracking]
+		LRID= str(LRID)
 
 		game_id = 0
 
@@ -49,8 +48,9 @@ def scrape(player_array, cur):
 		player = player_array[plyer-1]
 
 		# scrape begins
-		html = urlopen("http://espn.go.com/nba/player/gamelog/_/id/6430/"+player)
+		html = urlopen("http://espn.go.com/nba/player/gamelog/_/id/"+LRID+"/"+player)
 		bsObj = BeautifulSoup(html.read(), "html.parser")
+		tracking+=1
 
 
 		s = (bsObj.findAll("ul", {"class":"player-metadata floatleft"}))
@@ -219,8 +219,14 @@ def even(v, bsObj, playr, player, ayer,cur, plyer):
 	
 
 def query_interface (cur, conn):
+	select=''
+	table='' 
+	whre='' 
+	groupAns=''
 	# custom query interface
 	start = input("Ready to start querying?(yes/no) ")
+
+	colNames=[]
 
 	if start.lower() != "yes":
 		print("BYE!")
@@ -267,28 +273,75 @@ def query_interface (cur, conn):
 		else:
 			print("Seems like your spelling may be incorrect, lets try again.")
 			c = True
-
+	print()
 	# user input WHERE clause
-	print("What conditions would you like to add(ex first = 'jimmy', age >= 20)?")
+	whereQ = input("Want to use filter out data(yes/no) ")
 	print()
-	whre = input("WHERE: ")
+	if whereQ.lower() == "yes":
+		print("What conditions would you like to add(ex first = 'jimmy', age >= 20)?")
+		print()
+		whre = input("WHERE: ")
 
+		print()
+
+	#ask user groupBy
+	groupQ = input("Want to use group by?: (yes/no) ")
 	print()
+	if groupQ.lower() == "yes":
+		print("What would you like to group by?")
+		print()
+		groupAns = input("GROUP BY: ")
+
+		print()
+
+
 
 	# user validation of custom query
 	print("Is this the query you'd like to run?")
 	print()
 	table = table.capitalize()
-	print("SELECT", select, "FROM",table, "WHERE", whre)
+	if whereQ.lower() == "yes":
+		if groupQ.lower()=="yes":
+			print("SELECT", select, "FROM",table, "WHERE", whre, "GROUP BY", groupAns)
+		else:
+			print("SELECT", select, "FROM",table, "WHERE", whre)
+	else:
+		if groupQ.lower()=="yes":
+			print("SELECT", select, "FROM",table, "GROUP BY", groupAns)
+		else:
+			print("SELECT", select, "FROM",table)
 	print()
 	statement = input("(yes/no): ")
 	print()
 	# sql query construction and output
 	if (statement.lower() == "yes"):
-		hfg = cur.execute('SELECT %s FROM %s WHERE %s' % (select, table, whre))
+		if whereQ.lower() == "yes":
+			if groupQ.lower()=="yes":
+				hfg = cur.execute('SELECT %s FROM %s WHERE %s GROUP BY %s' % (select, table, whre, groupAns))
+			else:
+				hfg = cur.execute('SELECT %s FROM %s WHERE %s' % (select, table, whre))
+		else:
+			if groupQ.lower()=="yes":
+				hfg = cur.execute('SELECT %s FROM %s GROUP BY %s' % (select, table, groupAns))
+			else:
+				hfg = cur.execute('SELECT %s FROM %s' % (select, table))
+			
 		p = cur.fetchall()
+		print()
+
+		
+		for x in select2:
+			print(x[:4],end="\t")
+	
+		print()
 		for row in p:
-			print(row)
+			for y in row:
+				print(y,end="\t")
+			print()
+
+	print()
+	print()
+	query_interface(cur, conn)
 
 
 def some_or_all ():
