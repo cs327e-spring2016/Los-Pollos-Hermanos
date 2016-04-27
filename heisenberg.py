@@ -6,7 +6,7 @@ import pymysql
 
 def dbase_init():
 	# database connection: add your own passwd
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='data_scraper')
+	conn = pymysql.connect(host='localhost', port=3306, user='secrola', passwd='weida402144', db='data_scraper')
 	cur = conn.cursor()
 
 
@@ -135,75 +135,83 @@ def scrape(player_array, cur):
 
 def query_interface (cur, conn):
 	# custom query interface
-	start = input("Ready to start querying?(yes/no) ")
+	cycle = "on"
+	while(cycle=="on"):
+		start = input("Ready to start querying?(yes/no) ")
 
-	if start.lower() != "yes":
-		print("BYE!")
-		cur.close()
-		conn.commit()
-		conn.close()
-		stop = True
-		return stop
+		if start.lower() != "yes":
+			print("BYE!")
+			cur.close()
+			conn.commit()
+			conn.close()
+			stop = True
+			return stop
 
-	print("GREAT!")
-	print()
-
-	c = True
-	# iterate until correct table name is specified
-	while c == True:
-		print("Tables: Player, Data, Games")
-		print()
-		table = input("What table would you like to query? ")
-		print("Thanks!")
+		print("GREAT!")
 		print()
 
-		if (table.lower() == "player"):
-			print("Table", table.capitalize(), "has: id_pk , first , last ,and age for each player")
+		c = True
+		# iterate until correct table name is specified
+		while c == True:
+			print("Tables: Player, Data, Games")
 			print()
-			# user inputs what columns they'd like to see
-			select = input("What would you like to select(use commas to separate values)? ")
-			select2 = select.split(",")
-			print(select)
-			c = False
-		elif (table.lower() == "data"):
-			print("Table", table.capitalize(), "has: id_pk , game_fk , player_fk , minutes  , fg_made , fg_attempted , three_made , three_attempted , free_made , free_attempted , rebounds , assists , blocks , steals , fouls , turnovers ,  points for each Player in each Game played")
+			table = input("What table would you like to query? ")
+			print("Thanks!")
 			print()
-			select = input("What would you like to select(use commas to separate values)? ")
-			select2 = select.split(",")
-			print(select)
-			c = False
-		elif (table.lower() == "games"):
-			print("Table", table.capitalize(), "has: id_pk , opponent_fk , date , and score for each game")
-			print()
-			select = input("What would you like to select(use commas to separate values)? ")
-			select2 = select.split(",")
-			print(select)
-			c = False
+
+			if (table.lower() == "player"):
+				print("Table", table.capitalize(), "has: id_pk , first , last ,and age for each player")
+				print()
+				# user inputs what columns they'd like to see
+				select = input("What would you like to select(use commas to separate values)? ")
+				select2 = select.split(",")
+				print(select)
+				c = False
+			elif (table.lower() == "data"):
+				print("Table", table.capitalize(), "has: id_pk , game_fk , player_fk , minutes  , fg_made , fg_attempted , three_made , three_attempted , free_made , free_attempted , rebounds , assists , blocks , steals , fouls , turnovers ,  points for each Player in each Game played")
+				print()
+				select = input("What would you like to select(use commas to separate values)? ")
+				select2 = select.split(",")
+				print(select)
+				c = False
+			elif (table.lower() == "games"):
+				print("Table", table.capitalize(), "has: id_pk , opponent_fk , date , and score for each game")
+				print()
+				select = input("What would you like to select(use commas to separate values)? ")
+				select2 = select.split(",")
+				print(select)
+				c = False
+			else:
+				print("Seems like your spelling may be incorrect, lets try again.")
+				c = True
+
+		# user input WHERE clause
+		print("What conditions would you like to add(ex first = 'jimmy', age >= 20)?")
+		print()
+		whre = input("WHERE: ")
+
+		print()
+
+		# user validation of custom query
+		print("Is this the query you'd like to run?")
+		print()
+		table = table.capitalize()
+		print("SELECT", select, "FROM",table, "WHERE", whre)
+		print()
+		statement = input("(yes/no): ")
+		print()
+		# sql query construction and output
+		if (statement.lower() == "yes"):
+			hfg = cur.execute('SELECT %s FROM %s WHERE %s' % (select, table, whre))
+			p = cur.fetchall()
+			for row in p:
+				print(row)
+		print("Would you like to run another query?")
+		statement = input("(yes/no): ")
+		if (statement.lower() == "yes"):
+			continue
 		else:
-			print("Seems like your spelling may be incorrect, lets try again.")
-			c = True
-
-	# user input WHERE clause
-	print("What conditions would you like to add(ex first = 'jimmy', age >= 20)?")
-	print()
-	whre = input("WHERE: ")
-
-	print()
-
-	# user validation of custom query
-	print("Is this the query you'd like to run?")
-	print()
-	table = table.capitalize()
-	print("SELECT", select, "FROM",table, "WHERE", whre)
-	print()
-	statement = input("(yes/no): ")
-	print()
-	# sql query construction and output
-	if (statement.lower() == "yes"):
-		hfg = cur.execute('SELECT %s FROM %s WHERE %s' % (select, table, whre))
-		p = cur.fetchall()
-		for row in p:
-			print(row)
+			cycle = "off"
 
 
 def some_or_all ():
