@@ -59,7 +59,7 @@ def scrape(player_array, cur):
 		cur.execute('insert into Player values ("%s","%s","%s","%s")' % (plyer,first,last,age))		
 
 		# iterate over nba teams
-		for v in range(1,30):
+		for v in range(1,31):
 			# all but chicago bulls
 			if (v == 4):
 				continue
