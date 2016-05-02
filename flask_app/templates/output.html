@@ -7,19 +7,26 @@
           font-size: 12px;
       }
       .table-responsive {
-        text-align: center;
+        
         overflow-x: inherit;
       } 
       </style>
     
     <table class="table">
       <thead>
-        <th>ID</th><th>Game</th><th>Player</th><th>Minutes</th><th>Baskets Made</th><th>Baskets Attptd</th><th>3-Point Shots</th><th>3-Point Attptd</th><th>Free Throws Made</th><th>Free Throw Attptd</th><th>Rebounds</th><th>Assists</th><th>Blocks</th><th>Steals</th><th>Fouls</th><th>Turnovers</th><th>Points</th><th>Outcome</th>
+      {% for name in field_names %}
+
+        <th>{{name}}</th>
+
+      {% endfor %}
+
       </thead>
       <tbody>
       {% for i in player_array %}
       <tr>
-        <td>{{i[0]}}</td><td>{{i[1]}}</td><td>{{i[2]}}</td><td>{{i[3]}}</td><td>{{i[4]}}</td><td>{{i[5]}}</td><td>{{i[6]}}</td><td>{{i[7]}}</td><td>{{i[8]}}</td><td>{{i[9]}}</td><td>{{i[10]}}</td><td>{{i[11]}}</td><td>{{i[12]}}</td><td>{{i[13]}}</td><td>{{i[14]}}</td><td>{{i[15]}}</td><td>{{i[16]}}</td><td>{{i[17]}}</td>
+        {% for v in range(i|length) %}
+        <td>{{i[v]}} </td>
+        {%endfor%}
       </tr>
       {%endfor%}
       </tbody>

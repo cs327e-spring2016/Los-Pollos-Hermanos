@@ -56,10 +56,20 @@ def hello():
 	statement = request.form['your_query']
 	hfg = cur.execute(statement)
 	p = cur.fetchall()
+
+	num_fields = len(cur.description)
+	field_names = [i[0] for i in cur.description]
+
 	for row in p:
-		ntstr = [row[0],row[1], row[2], row[3], row[4],row[5], row[6], row[7], row[8],row[9], row[10], row[11], row[12],row[13], row[14], row[15], row[16],row[17]]
+		ntstr = []
+		for x in range(len(row)):
+			ntstr.append(row[x])
+		#ntstr.append(c_ntstr)
+
+
+		#ntstr = [row[0],row[1], row[2], row[3], row[4],row[5], row[6], row[7], row[8],row[9], row[10], row[11], row[12],row[13], row[14], row[15], row[16],row[17]]
 		arrayT.append(ntstr)
-	return render_template("output.html", statement = statement, player_array=arrayT)
+	return render_template("output.html", statement = statement, player_array=arrayT, field_names=field_names)
 
 
 
