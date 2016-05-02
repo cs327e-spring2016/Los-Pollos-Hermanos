@@ -1,0 +1,35 @@
+{% extends "query.html" %}
+{% block content2 %}
+  <h2> {{statement}} </h2>
+  <div class="table-responsive">
+    <style>
+      body {
+          font-size: 12px;
+      }
+      .table-responsive {
+        
+        overflow-x: inherit;
+      } 
+      </style>
+    
+    <table class="table">
+      <thead>
+      {% for name in field_names %}
+
+        <th>{{name}}</th>
+
+      {% endfor %}
+
+      </thead>
+      <tbody>
+      {% for i in player_array %}
+      <tr>
+        {% for v in range(i|length) %}
+        <td>{{i[v]}} </td>
+        {%endfor%}
+      </tr>
+      {%endfor%}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

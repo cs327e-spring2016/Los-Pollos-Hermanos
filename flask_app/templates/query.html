@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block content %}
+  <style>
+    .container2 {
+      width: 700px;
+    }
+
+  </style>
+  <div class="container2">
+    <h3> Write your code below</h3>
+    <form action="{{ url_for('hello') }}" method="post">
+      <!--<div class="form-group">-->
+        <label for="usr">SQL Query:</label>
+        <input type="text" name="your_query" class="form-control" id="statement">
+        <br>
+        <button type="submit" value= "submit" class="btn btn-success">Submit</button>
+      <!--</div>-->
+    </form>
+    <div>
+      <div class="row" id="row_table">
+        {% block content2 %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
