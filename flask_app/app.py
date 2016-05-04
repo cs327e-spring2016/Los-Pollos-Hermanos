@@ -2,9 +2,16 @@ from flask import Flask, render_template, request, url_for
 import pymysql
 app = Flask(__name__)
 
+
+#sudo apachectl restart
+
 @app.route("/")
 def main():
     return render_template("index.html")
+
+@app.rout("/about")
+def about():
+	return render_template("about-us.html")
 
 
 @app.route("/games")
