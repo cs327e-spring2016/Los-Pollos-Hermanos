@@ -1,15 +1,42 @@
 {% extends "main.html" %}
 {% block content %}
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <!--<link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"> -->
   <style>
     .container2 {
-      width: 700px;
+      
+      padding-left: 15px;
     }
-
+    body {
+      padding-top: 0px;
+    }
+    .row {
+      background-color: #eee;
+      padding-bottom: 15px;
+      margin-right: 0px;
+    }
+    .row p {
+      padding-left: 15px;
+    }
+    .col-lg-4 img, h4 {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
   </style>
   <div class="container2">
-    <h3> Who we are... </h3>
-    <p> who we are goes here </p>
+    <h3> The Team </h3><br>
+    <div class="row">
+      <div class=col-lg-4>
+        <img src="{{url_for('static', filename='juan.jpg')}}" alt="jfh" class="img-circle"><h4>Juan H</h4>
+      </div>
+      <div class=col-lg-4>
+        <img src="{{url_for('static', filename='lr.jpg')}}" alt="lr" class="img-circle"><br><br><h4>Leonel R</h4>
+      </div>
+      <div class=col-lg-4>
+        <img src="{{url_for('static', filename='wei.jpg')}}" alt="wdp" class="img-circle"><h4>Wei Da</h4>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
