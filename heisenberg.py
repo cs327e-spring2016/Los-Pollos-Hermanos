@@ -17,7 +17,7 @@ def dbase_init():
 	cur.execute("DROP TABLE IF EXISTS Player")
 	cur.execute("create table Player (id_pk INT not null, first varchar(25), last varchar(25), age INT, PRIMARY KEY (id_pk))")
 	cur.execute("DROP TABLE IF EXISTS Games")
-	cur.execute("create table Games ( id_pk INT not null, opponent_fk varchar(25), date varchar(25), score varchar(25), outcome varchar(1), PRIMARY KEY (id_pk))")
+	cur.execute("create table Games ( id_pk INT not null, opponent_fk varchar(25), date varchar(25), bulls_points INT, opp_points INT, outcome varchar(1), PRIMARY KEY (id_pk))")
 
 	return cur, conn
 
@@ -113,6 +113,10 @@ def odd(v, bsObj, playr, player, ayer,cur, plyer):
 		#score
 		q = obj[2].findAll("a")
 		score = q[0].getText()
+		Fscore= score.split("-")
+
+		bulls = Fscore[0]
+		opts = Fscore[1]
 		#outcome
 		wl = obj[2].findAll("span")
 		outcome = wl[0].getText()
@@ -146,7 +150,7 @@ def odd(v, bsObj, playr, player, ayer,cur, plyer):
 		points = obj[16].getText()
 		
 		if plyer == 1:
-			cur.execute('insert into Games values (%s,"%s","%s","%s","%s")' % (game_id, opponent , date, score, outcome))
+			cur.execute('insert into Games values (%s,"%s","%s","%s","%s", "%s")' % (game_id, opponent , date, bulls, opts, outcome))
 		cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points, outcome ))
 	# end of scrape
 
@@ -180,6 +184,10 @@ def even(v, bsObj, playr, player, ayer,cur, plyer):
 		#score
 		q = obj[2].findAll("a")
 		score = q[0].getText()
+		Fscore= score.split("-")
+
+		bulls = Fscore[0]
+		opts = Fscore[1]
 		#outcome
 		wl = obj[2].findAll("span")
 		outcome = wl[0].getText()
@@ -213,7 +221,7 @@ def even(v, bsObj, playr, player, ayer,cur, plyer):
 		points = obj[16].getText()
 
 		if plyer == 1:
-			cur.execute('insert into Games values (%s,"%s","%s","%s","%s")' % (game_id, opponent , date, score, outcome))
+			cur.execute('insert into Games values (%s,"%s","%s","%s","%s", "%s")' % (game_id, opponent , date, bulls, opts, outcome))
 		cur.execute('insert into Data values ("%s",%s,%s,"%s", "%s", "%s","%s","%s","%s", "%s" ,"%s", "%s", "%s","%s","%s","%s", "%s", "%s")' % (data_id, game_id ,plyer, minu, fg_made, fg_attempted, three_made, three_attempted, free_made, free_attempted, rebounds, assists, blocks, steals, fouls, turnovers, points, outcome ))
 	# end of scrape
 
