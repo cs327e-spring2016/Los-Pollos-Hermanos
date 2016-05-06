@@ -65,7 +65,10 @@ def hello():
 	cur = conn.cursor()
 	arrayT = []
 	statement = request.form['your_query']
-	hfg = cur.execute(statement)
+	try:
+		hfg = cur.execute(statement)
+	except:
+		return render_template("error.html")
 	p = cur.fetchall()
 
 	num_fields = len(cur.description)
@@ -81,6 +84,10 @@ def hello():
 		#ntstr = [row[0],row[1], row[2], row[3], row[4],row[5], row[6], row[7], row[8],row[9], row[10], row[11], row[12],row[13], row[14], row[15], row[16],row[17]]
 		arrayT.append(ntstr)
 	return render_template("output.html", statement = statement, player_array=arrayT, field_names=field_names)
+
+@app.route("/error")
+def error():
+	return render_template("error.html")
 
 
 
