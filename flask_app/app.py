@@ -22,7 +22,10 @@ def getGames():
 	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
 	arrayTo = []
-	hfg = cur.execute('SELECT %s FROM %s' % ("*", "Games"))
+	try:
+		hfg = cur.execute('SELECT %s FROM %s' % ("*", "Games"))
+	except:
+		return render_template("error.html")
 	p = cur.fetchall()
 	for row in p:
 		ntstr = [row[0],row[1], row[2], row[3], row[4], row[5]]
@@ -35,7 +38,10 @@ def getPlayers():
 	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
 	arrayTo = []
-	hfg = cur.execute('SELECT %s FROM %s' % ("*", "Player"))
+	try:
+		hfg = cur.execute('SELECT %s FROM %s' % ("*", "Player"))
+	except:
+		return render_template("error.html")
 	p = cur.fetchall()
 	for row in p:
 		ntstr = [row[0],row[1], row[2], row[3]]
@@ -47,7 +53,10 @@ def getData():
 	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
 	arrayT = []
-	hfg = cur.execute('SELECT %s FROM %s' % ("*", "Data"))
+	try:
+		hfg = cur.execute('SELECT %s FROM %s' % ("*", "Data"))
+	except:
+		return render_template("error.html")
 	p = cur.fetchall()
 	for row in p:
 		ntstr = [row[0],row[1], row[2], row[3], row[4],row[5], row[6], row[7], row[8],row[9], row[10], row[11], row[12],row[13], row[14], row[15], row[16],row[17]]
