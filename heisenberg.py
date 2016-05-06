@@ -12,10 +12,12 @@ def dbase_init():
 
 
 	# tables wiped 
-	cur.execute("DELETE FROM Data")
-	cur.execute("DELETE FROM Player")
-	#cur.execute("DELETE FROM Opponents")
-	cur.execute("DELETE FROM Games")
+	cur.execute("DROP TABLE IF EXISTS Data")
+	cur.execute("create table Data (id_pk INT not null, game_fk INT, player_fk INT, minutes INT, fg_made INT, fg_attempted INT, three_made INT, three_attempted INT, free_made INT, free_attempted INT, rebounds INT, assists INT, blocks INT, steals INT, fouls INT, turnovers INT, points INT, outcome varchar(1), PRIMARY KEY (id_pk))")
+	cur.execute("DROP TABLE IF EXISTS Player")
+	cur.execute("create table Player (id_pk INT not null, first varchar(25), last varchar(25), age INT, PRIMARY KEY (id_pk))")
+	cur.execute("DROP TABLE IF EXISTS Games")
+	cur.execute("create table Games ( id_pk INT not null, opponent_fk varchar(25), date varchar(25), score varchar(25), outcome varchar(1), PRIMARY KEY (id_pk))")
 
 	return cur, conn
 
@@ -116,7 +118,6 @@ def odd(v, bsObj, playr, player, ayer,cur, plyer):
 		outcome = wl[0].getText()
 		#minutes
 		minu = obj[3].getText()
-		print(minu, opponent)
 
 		x = obj[4].getText().split("-")
 		fg_made = x[0]
@@ -383,8 +384,8 @@ def main():
 		return
 
 	# close database connection
-	cur.close()
-	conn.commit()
-	conn.close()
+	#cur.close()
+	#conn.commit()
+	#conn.close()
 
 main()

@@ -35,3 +35,26 @@ Update April 25, 2016
 Update April 26, 2016
 
 - refreshed code. bug fixes in teams imports and games
+
+Update May 5, 2016
+
+- data scraping: 100%
+- database: 100%
+- front end: 100%
+
+Requirements to test app locally
+
+- start up MySQL and create database name "data_scraper"
+- edit functions in app.py and input your MySQL root password
+- install additional python package virtualenv and flask
+- activate virtualenv FlaskApp
+- run python3 app.py
+- open browser and go to 0.0.0.0:8081
+- click to import data, wait, and enjoy
+- fun query to test is "SELECT CONCAT(P.first,' ',P.last), G.opponent_fk, G.date, P.age, D.minutes, D.fg_made, D.fg_attempted, D.three_made, D.three_attempted, D.free_made, D.free_attempted, D.points, D.outcome FROM Data D INNER JOIN Player P ON D.player_fk = P.id_pk INNER JOIN Games G ON D.game_fk = G.id_pk"
+- to test app wit console interface do the following
+- edit heisenberg.py and add your MySQL root password
+- run python3 heisenberg.py and enjoy
+
+- our application is also remotely accesible from the public IP http://54.183.231.13/
+
