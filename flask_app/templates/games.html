@@ -12,12 +12,12 @@
       </style>
     <table class="table">
       <thead>
-        <th>id_pk</th><th>opponent_fk</th><th>date</th><th>score</th><th>outcome</th>
+        <th>id_pk</th><th>opponent_fk</th><th>date</th><th>bulls_points</th><th>opp_points<th>outcome</th>
       </thead>
       <tbody>
     	{% for i in player_array %}
     	<tr>
-    		<td>{{i[0]}}</td><td>{{i[1]}}</td><td>{{i[2]}}</td><td>{{i[3]}}</td><td>{{i[4]}}</td>
+    		<td>{{i[0]}}</td><td>{{i[1]}}</td><td>{{i[2]}}</td><td>{{i[3]}}</td><td>{{i[4]}}</td><td>{{i[5]}}</td>
     	</tr>
     	{%endfor%}
       </tbody>
