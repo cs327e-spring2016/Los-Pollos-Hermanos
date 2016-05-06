@@ -7,14 +7,14 @@ preseason =["Fri 10/23","Tue 10/20","Mon 10/19","Wed 10/14","Mon 10/12","Sat 10/
 
 def dbase_init():
 	# database connection: add your own passwd
-	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='st1eo.22', db='data_scraper')
+	conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='jfh71293.,', db='data_scraper')
 	cur = conn.cursor()
 
 
 	# tables wiped 
 	cur.execute("DELETE FROM Data")
 	cur.execute("DELETE FROM Player")
-	cur.execute("DELETE FROM Opponents")
+	#cur.execute("DELETE FROM Opponents")
 	cur.execute("DELETE FROM Games")
 
 	return cur, conn
@@ -48,7 +48,7 @@ def scrape(player_array, cur):
 		player = player_array[plyer-1]
 
 		# scrape begins
-		html = urlopen("http://espn.go.com/nba/player/gamelog/_/id/"+LRID+"/"+player)
+		html = urlopen("http://espn.go.com/nba/player/gamelog/_/id/"+LRID)
 		bsObj = BeautifulSoup(html.read(), "html.parser")
 		tracking+=1
 
@@ -116,6 +116,7 @@ def odd(v, bsObj, playr, player, ayer,cur, plyer):
 		outcome = wl[0].getText()
 		#minutes
 		minu = obj[3].getText()
+		print(minu, opponent)
 
 		x = obj[4].getText().split("-")
 		fg_made = x[0]

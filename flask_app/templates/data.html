@@ -8,11 +8,16 @@
       }
       table {
         text-align: center;
+        width: 100%;
+      }
+      .table-responsive {
+        
+        overflow-x: inherit;
       } 
       </style>
     <table class="table">
       <thead>
-        <th>ID</th><th>Game</th><th>Player</th><th>Minutes</th><th>Baskets Made</th><th>Baskets Attptd</th><th>3-Point Shots</th><th>3-Point Attptd</th><th>Free Throws Made</th><th>Free Throw Attptd</th><th>Rebounds</th><th>Assists</th><th>Blocks</th><th>Steals</th><th>Fouls</th><th>Turnovers</th><th>Points</th><th>Outcome</th>
+        <th>id_pk</th><th>game_fk</th><th>player_fk</th><th>minutes</th><th>fg_made</th><th>fg_attempted</th><th>three_made</th><th>three_attempted</th><th>free_made</th><th>free_attempted</th><th>rebounds</th><th>assists</th><th>blocks</th><th>steals</th><th>fouls</th><th>turnovers</th><th>points</th><th>outcome</th>
       </thead>
       <tbody>
     	{% for i in player_array %}
