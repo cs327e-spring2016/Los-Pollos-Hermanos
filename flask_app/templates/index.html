@@ -15,12 +15,15 @@
 body {
     padding-top: 0px;
 }
+.btn-success {
+    width: 75%
+}
 </style>
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">LosPollosHermanos</a>
+                <a class="navbar-brand" href="/">Los Pollos Hermanos</a>
             </div>
         </div>
     </nav>
@@ -35,12 +38,16 @@ body {
             <p class="lead"></p>
             <p><a class="btn btn-md btn-success" href="players" role="button">click to view Players</a></p>
             <p><a class="btn btn-md btn-success" href="data" role="button">click to view Data</a></p>
-            <p><a class="btn btn-md btn-success" href="games" role="button">click to view Games</a>
-            </p>
+            <p><a class="btn btn-md btn-success" href="games" role="button">click to view Games</a></p>
             <p><a class="btn btn-md btn-success" href="query" role="button">click to create custom query</a>
-            </p>
+            <form action="{{ url_for('start') }}" onclick= "window.alert('Data imports usually take around 30 seconds depending on your network speed. This page will automatically refresh when complete. Click OK to begin');" method="post">
+            <p><button class="btn btn-md btn-success" href="update" role="button" value="submit" type="submit">click here to import latest data</button></p>
+            </form>
+
+            {% block content %}{% endblock %}
 
         </div>
+
  
         <footer class="footer">
             <p>&copy; Los Pollos Hermanos</p>
