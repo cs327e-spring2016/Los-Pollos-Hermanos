@@ -47,7 +47,7 @@ Requirements to test app locally
 - start up MySQL and create database name "data_scraper"
 - edit functions in app.py to contain your MySQL root password
 - install additional python package virtualenv and flask
-- activate virtualenv FlaskApp
+- activate virtualenv FlaskApp from its bin directory
 - run python3 app.py
 - open browser and go to 0.0.0.0:8081
 - click to import data, wait, and enjoy
