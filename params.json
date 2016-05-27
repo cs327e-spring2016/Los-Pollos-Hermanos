@@ -1,6 +1,6 @@
 {
   "name": "LosPollosHermanos-- CHI Bulls Player Data Web Application",
   "tagline": "Team Members: Juan Hinojosa, Leonel Rodriguez, Wei Da Pan",
-  "body": "Chicago Bulls Player Data Web Application\r\n\r\nAuthors:\r\nJuan Hinojosa\r\nLeonel Rodriguez\r\nWei Da Pan\r\n",
+  "body": "Chicago Bulls player data web application is a web scraping tool written in python. The core of the application is to allow users to import new data from ESPN upon request. This gives users the ability to query the newest game data. Our purpose was to create a user friendly application that would import, store, and query NBA player data. Details about are project include the use of BeautifulSoup4 for Web Scraping, Flask MVC framework along side jinja templating, and a MySQL database.\r\n\r\nAuthors:   \r\n\r\nJuan Hinojosa   \r\nLeonel Rodriguez   \r\nWei Da Pan   \r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
